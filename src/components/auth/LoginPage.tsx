@@ -72,7 +72,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, error, isLoading 
     });
   };
 
-  const displayError = validationError || error;
+  const rawError = validationError || error;
+  const displayError = rawError
+    ? (typeof rawError === 'string'
+        ? rawError
+        : typeof (rawError as any)?.message === 'string'
+        ? (rawError as any).message
+        : String(rawError))
+    : '';
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between relative overflow-hidden font-sans selection:bg-emerald-500 selection:text-white">

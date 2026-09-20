@@ -16,6 +16,7 @@ import { useAuthStore, type AuthUser } from './stores/authStore';
 import { useSuperAdminAuth, isSuperAdminTokenExpired } from './stores/superAdminAuthStore';
 import { apiClient } from './lib/apiClient';
 import { initSuperAdminApi } from './lib/superAdminApi';
+import { extractErrorMessage } from './utils/errorMessage';
 import { TopHeader } from './components/layout/TopHeader';
 import { MegaMenu } from './components/layout/MegaMenu';
 import { TabBar } from './components/layout/TabBar';
@@ -962,8 +963,7 @@ export default function App() {
       // than keeping the login form's loading indicator.
       setBootstrapStage('initializing');
     } catch (err: any) {
-      const msg = err.response?.data?.error || err.message || 'Login failed. Please try again.';
-      setLoginError(msg);
+      setLoginError(extractErrorMessage(err, 'Login failed. Please try again.'));
     } finally {
       setIsLoggingIn(false);
     }

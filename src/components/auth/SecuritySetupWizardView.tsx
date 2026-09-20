@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Smartphone, HelpCircle, CheckCircle2, ChevronRight, AlertCircle, ChevronLeft } from 'lucide-react';
 import { fetchSecurityQuestions, type SecurityQuestion } from '../../api/security';
+import { extractErrorMessage } from '../../utils/errorMessage';
 
 interface SecuritySetupWizardViewProps {
   /**
@@ -35,7 +36,7 @@ export const SecuritySetupWizardView: React.FC<SecuritySetupWizardViewProps> = (
         setQuestions(rows);
         setQuestionsError(rows.length < 2 ? 'No security questions are configured. Contact your administrator.' : null);
       } catch (err: any) {
-        if (!cancelled) setQuestionsError(err?.response?.data?.error || 'Could not load security questions. Check your connection and retry.');
+        if (!cancelled) setQuestionsError(extractErrorMessage(err, 'Could not load security questions. Check your connection and retry.'));
       } finally {
         if (!cancelled) setLoadingQuestions(false);
       }
@@ -70,7 +71,7 @@ export const SecuritySetupWizardView: React.FC<SecuritySetupWizardViewProps> = (
         ],
       });
     } catch (err: any) {
-      setError(err?.response?.data?.error || err?.message || 'Could not save your security settings. Please try again.');
+      setError(extractErrorMessage(err, 'Could not save your security settings. Please try again.'));
     } finally {
       setIsLoading(false);
     }

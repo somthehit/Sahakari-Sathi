@@ -86,11 +86,19 @@ export class ErrorBoundary extends Component<Props, State> {
                 <div className="font-bold text-rose-900 flex items-center justify-between">
                   <span>Error Details:</span>
                   <span className="text-[10px] font-mono text-rose-700 bg-rose-100 px-2 py-0.5 rounded">
-                    {this.state.error.name || 'Runtime Exception'}
+                    {typeof this.state.error?.name === 'string' ? this.state.error.name : 'Runtime Exception'}
                   </span>
                 </div>
                 <p className="font-mono text-rose-800 break-words font-semibold">
-                  {this.state.error.message || 'Unknown execution error'}
+                  {typeof this.state.error?.message === 'string'
+                    ? this.state.error.message
+                    : typeof this.state.error === 'string'
+                    ? this.state.error
+                    : typeof (this.state.error as any)?.error === 'string'
+                    ? (this.state.error as any).error
+                    : this.state.error
+                    ? JSON.stringify(this.state.error)
+                    : 'Unknown execution error'}
                 </p>
               </div>
             )}

@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { formatNPR } from '../../utils/nepaliCalendar';
 import { DateConverter } from '../../utils/DateConverter';
+import { extractErrorMessage } from '../../utils/errorMessage';
 import { chequeQueryKeys, invalidateChequeRegister } from '../../lib/queryClient';
 import {
   listChequeBooks,
@@ -242,7 +243,7 @@ function IssueChequeBookModal({ open, onClose, onIssued }: IssueChequeBookModalP
         daysSinceLastIssue,
       });
     } catch (err: any) {
-      setError(err?.response?.data?.error || err?.message || 'Account lookup failed.');
+      setError(extractErrorMessage(err, 'Account lookup failed.'));
       setStage('search');
     } finally {
       setChecking(false);
@@ -267,7 +268,7 @@ function IssueChequeBookModal({ open, onClose, onIssued }: IssueChequeBookModalP
       reset();
       onClose();
     } catch (err: any) {
-      setError(err?.response?.data?.error || err?.message || 'Failed to issue cheque book.');
+      setError(extractErrorMessage(err, 'Failed to issue cheque book.'));
     } finally {
       setIssuing(false);
     }
@@ -651,7 +652,7 @@ export const ChequeBookManageView: React.FC = () => {
       await invalidateChequeRegister();
       loadClearance();
     } catch (err: any) {
-      setActionMsg(err?.response?.data?.error || err?.message || 'Clear failed.');
+      setActionMsg(extractErrorMessage(err, 'Clear failed.'));
     }
   }
 
@@ -665,7 +666,7 @@ export const ChequeBookManageView: React.FC = () => {
       setBounceTarget(null);
       loadClearance();
     } catch (err: any) {
-      setActionMsg(err?.response?.data?.error || err?.message || 'Bounce failed.');
+      setActionMsg(extractErrorMessage(err, 'Bounce failed.'));
     } finally {
       setActionBusy(false);
     }
@@ -678,7 +679,7 @@ export const ChequeBookManageView: React.FC = () => {
       await invalidateChequeRegister();
       loadApprovals();
     } catch (err: any) {
-      setActionMsg(err?.response?.data?.error || err?.message || 'Approval failed.');
+      setActionMsg(extractErrorMessage(err, 'Approval failed.'));
     }
   }
 
@@ -692,7 +693,7 @@ export const ChequeBookManageView: React.FC = () => {
       setRejectTarget(null);
       loadApprovals();
     } catch (err: any) {
-      setActionMsg(err?.response?.data?.error || err?.message || 'Rejection failed.');
+      setActionMsg(extractErrorMessage(err, 'Rejection failed.'));
     } finally {
       setActionBusy(false);
     }

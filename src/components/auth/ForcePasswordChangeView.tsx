@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, ShieldAlert, Check, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import { apiClient } from '../../lib/apiClient';
+import { extractErrorMessage } from '../../utils/errorMessage';
 
 interface ForcePasswordChangeViewProps {
   onSuccess: (session?: { accessToken?: string; user?: any }) => void;
@@ -34,7 +35,7 @@ export const ForcePasswordChangeView: React.FC<ForcePasswordChangeViewProps> = (
       });
       onSuccess(res.data);
     } catch (err: any) {
-      setError(err?.response?.data?.error || err.message || 'Failed to change password. Please try again.');
+      setError(extractErrorMessage(err, 'Failed to change password. Please try again.'));
     } finally {
       setIsLoading(false);
     }
