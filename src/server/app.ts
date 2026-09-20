@@ -94,9 +94,41 @@ export function createApp() {
   // Mount Main ERP API Layer
   app.use('/api/v1', apiRouter);
 
-  // Health check API
-  app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  // Health check API with system diagnostics
+  app.get('/api/health', async (_req, res) => {
+    let dbConnected = false;
+    let dbError: string | null = null;
+    try {
+      const { checkDbHealth } = await import('../db/client');
+      dbConnected = await checkDbHealth();
+    } catch (e: any) {
+      dbError = e.message;
+    }
+
+    const hasDbUrl = Boolean(
+      process.env.DATABASE_URL ||
+      process.env.POSTGRES_URL ||
+      process.env.SUPABASE_DB_URL ||
+      process.env.DIRECT_URL
+    );
+    const hasSupabaseUrl = Boolean(process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL);
+    const hasAnonKey = Boolean(process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY);
+    const hasServiceRoleKey = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'production',
+      isServerless: Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME),
+      diagnostics: {
+        databaseConfigured: hasDbUrl,
+        databaseConnected: dbConnected,
+        databaseError: dbError,
+        supabaseUrlConfigured: hasSupabaseUrl,
+        supabaseAnonKeyConfigured: hasAnonKey,
+        supabaseServiceKeyConfigured: hasServiceRoleKey,
+      },
+    });
   });
 
   // Coop Database API Endpoints
