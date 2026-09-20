@@ -277,11 +277,10 @@ export function createApp() {
   // Centralized error handler
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     const status = err.status || err.statusCode || (err instanceof SyntaxError ? 400 : 500);
-    if (status >= 500) {
-      console.error('[api:error]', err);
-    }
+    console.error('[api:error]', err);
     res.status(status).json({
-      error: status >= 500 ? 'Internal Server Error' : (err.message || 'Request failed'),
+      error: err.message || (status >= 500 ? 'Internal Server Error' : 'Request failed'),
+      message: err.message,
       requestId: res.locals.requestId,
     });
   });

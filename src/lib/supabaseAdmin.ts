@@ -1,17 +1,23 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-// Backend-only Supabase Client (bypasses RLS using Service Role Key)
-const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+const getEnv = (key: string, fallbackKey: string = ''): string => {
+  return (
+    (typeof process !== 'undefined' && process.env && (process.env[key] || (fallbackKey && process.env[fallbackKey]))) ||
+    ''
+  );
+};
 
 let client: SupabaseClient | null = null;
 
 function getClient(): SupabaseClient {
   if (!client) {
+    const supabaseUrl = getEnv('SUPABASE_URL', 'VITE_SUPABASE_URL');
+    const supabaseServiceRoleKey = getEnv('SUPABASE_SERVICE_ROLE_KEY');
+
     if (!supabaseUrl || !supabaseServiceRoleKey) {
       console.warn('[Supabase Admin] Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in environment');
     }
-    client = createClient(supabaseUrl, supabaseServiceRoleKey, {
+    client = createClient(supabaseUrl || 'https://placeholder.supabase.co', supabaseServiceRoleKey || 'placeholder-service-key', {
       auth: {
         autoRefreshToken: false,
         persistSession: false

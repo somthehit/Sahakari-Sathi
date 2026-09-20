@@ -55,6 +55,7 @@ function createPool(c: DatabaseConnectionConfig, override?: Partial<DatabaseConn
     idle_timeout: Math.floor(cfg.idleTimeoutMs / 1000),
     connect_timeout: Math.floor(cfg.connectionTimeoutMs / 1000),
     ssl: sslConfig(cfg.sslMode),
+    prepare: false, // Required for PgBouncer / Supabase transaction pooler
   });
 }
 

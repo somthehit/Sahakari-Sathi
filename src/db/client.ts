@@ -21,7 +21,12 @@ function initFromEnv() {
   if (_initialized) return;
   _initialized = true;
 
-  const databaseUrl = process.env.DATABASE_URL;
+  const databaseUrl =
+    process.env.DATABASE_URL ||
+    process.env.POSTGRES_URL ||
+    process.env.SUPABASE_DB_URL ||
+    process.env.DIRECT_URL;
+
   if (!databaseUrl) {
     console.warn(
       '[DB] DATABASE_URL not set. Running in prototype/mock mode — data will NOT persist.\n' +
@@ -34,17 +39,19 @@ function initFromEnv() {
   try {
     const parsed = new URL(databaseUrl);
     const sslMode = parsed.searchParams.get('sslmode') ||
-      (databaseUrl.includes('supabase.co') ? 'require' : 'disable');
+      (databaseUrl.includes('supabase.co') || databaseUrl.includes('pooler.supabase.com') ? 'require' : 'disable');
+
+    const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
 
     const config: DatabaseConnectionConfig = {
       host: parsed.hostname,
       port: parseInt(parsed.port || '5432', 10),
-      databaseName: parsed.pathname.replace(/^\//, ''),
+      databaseName: parsed.pathname.replace(/^\//, '').split('?')[0],
       username: decodeURIComponent(parsed.username),
       password: decodeURIComponent(parsed.password),
       sslMode,
-      minPoolSize: 2,
-      maxPoolSize: 10,
+      minPoolSize: isServerless ? 1 : 2,
+      maxPoolSize: isServerless ? 3 : 10,
       connectionTimeoutMs: 30000,
       idleTimeoutMs: 30000,
       statementTimeoutMs: 30000,

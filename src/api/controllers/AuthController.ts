@@ -875,16 +875,16 @@ export { updateOrgProfileSchema };
 
 export const loginSchema = z.object({
   body: z.object({
-    organizationCode: z.string().regex(/^[A-Z]{4,12}$/, 'Organization code must be 4-12 uppercase letters'),
-    username: z.string().min(3).max(30),
-    password: z.string().min(6),
+    organizationCode: z.string().min(1, 'Organization code is required').max(30),
+    username: z.string().min(1, 'Username is required').max(100),
+    password: z.string().min(1, 'Password is required'),
   })
 });
 
 export const superAdminLoginSchema = z.object({
   body: z.object({
-    username: z.string().min(3).max(30),
-    password: z.string().min(6),
+    username: z.string().min(1, 'Username is required').max(100),
+    password: z.string().min(1, 'Password is required'),
   })
 });
 
