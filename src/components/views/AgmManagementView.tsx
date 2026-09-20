@@ -152,7 +152,7 @@ export const AgmManagementView: React.FC = () => {
     try {
       setSaving(true);
       const result = await bulkAddMembers(selectedMeeting.id);
-      addNotification('Bulk Add', result.message, 'success');
+      addNotification('Bulk Add', (result as any)?.message || `Added ${(result as any)?.added ?? 0} members`, 'success');
       await loadAttendees(selectedMeeting.id);
     } catch (e: any) { addNotification('Error', e.response?.data?.error || 'Failed', 'alert'); }
     finally { setSaving(false); }
@@ -665,7 +665,7 @@ export const AgmManagementView: React.FC = () => {
       {/* ─── NEWS TAB ─────────────────────────────────────────────── */}
       {tab === 'news' && (
         <div className="space-y-4">
-          <button onClick={() => { setEditingNews(null); setNForm({ title: '', titleNepali: '', content: '', contentNepali: '', category: 'Announcement', priority: 'Medium', isPublished: false }); setNewsModal(true); }}
+          <button onClick={() => { setEditingNews(null); setNForm({ title: '', titleNepali: '', content: '', contentNepali: '', category: 'Announcement', priority: 'Medium', isPublished: false, attachments: [] }); setNewsModal(true); }}
             className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition cursor-pointer flex items-center gap-1.5 text-xs shadow-sm">
             <Plus className="w-3.5 h-3.5" />Add News / Update
           </button>

@@ -78,7 +78,11 @@ export type MediaTargetType =
   | 'invoice_bill'
   | 'payroll_document'
   | 'org_logo'
-  | 'org_favicon';
+  | 'org_favicon'
+  | 'deposit_voucher'
+  | 'cheque_image'
+  | 'agm_document'
+  | 'user_avatar';
 
 export interface Member {
   id: string;
@@ -650,7 +654,7 @@ export interface NotificationItem {
   id: string;
   title: string;
   message: string;
-  type: 'info' | 'success' | 'warning' | 'alert';
+  type: 'info' | 'success' | 'warning' | 'alert' | 'error';
   timestampBS: string;
   isRead: boolean;
   linkModule?: string;

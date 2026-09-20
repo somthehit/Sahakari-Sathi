@@ -288,7 +288,7 @@ export class WhatsAppService {
    * Get effective WhatsApp credentials for an organization
    */
   private async getEffectiveCredentials(organizationId: string) {
-    const orgSettings = await this.settingsService.getOrgSettings(organizationId);
+    const orgSettings: any = await this.settingsService.getOrgSettings(organizationId);
     
     // If org wants to use platform credentials, fetch from system_settings
     if (orgSettings.usePlatformCredentials || !orgSettings.whatsappEnabled) {

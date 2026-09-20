@@ -24,7 +24,7 @@ export class SmsError extends Error {
 
 interface SmsProvider {
   name: string;
-  send(to: string, message: string, senderId: string): Promise<SmsResult>;
+  send(to: string, message: string, senderId: string, apiKey: string): Promise<SmsResult>;
   checkBalance(apiKey: string): Promise<number>;
 }
 

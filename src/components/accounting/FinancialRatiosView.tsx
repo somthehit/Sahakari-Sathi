@@ -129,7 +129,7 @@ export const FinancialRatiosView: React.FC<FinancialRatiosViewProps> = ({
         code: r.code, title: r.title, category: r.category,
         value: r.value, benchmark: r.benchmark, status: r.status,
         formula: r.formula, description: r.description,
-      })),
+      })) as any,
     );
   };
 

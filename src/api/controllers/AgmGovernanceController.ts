@@ -124,7 +124,7 @@ async function getShareSummary(db: any, organizationId: string) {
 
 async function getLatestMeeting(db: any, organizationId: string, type?: string) {
   const conditions = [eq(agmMeetings.organizationId, organizationId)];
-  if (type) conditions.push(eq(agmMeetings.type, type));
+  if (type) conditions.push(eq(agmMeetings.type, type as any));
   const [meeting] = await db.select().from(agmMeetings)
     .where(and(...conditions))
     .orderBy(desc(agmMeetings.meetingDateBs))

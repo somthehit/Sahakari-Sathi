@@ -182,7 +182,7 @@ export class NotificationSettingsService {
    * Returns org credentials if configured, otherwise platform credentials
    */
   async getEffectiveWhatsAppCredentials(organizationId: string) {
-    const orgSettings = await this.getOrgSettings(organizationId);
+    const orgSettings: any = await this.getOrgSettings(organizationId);
     
     // If org wants to use platform credentials, fetch from system_settings
     if (orgSettings.usePlatformCredentials || !orgSettings.whatsappEnabled) {

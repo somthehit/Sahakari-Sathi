@@ -83,7 +83,7 @@ export class DatabaseSettingsService {
       if (!fields.passwordEncrypted) {
         throw new ApiError(400, 'Password is required when saving database configuration for the first time');
       }
-      const [row] = await db.insert(databaseSettings).values(fields).returning();
+      const [row] = await db.insert(databaseSettings).values(fields as any).returning();
       return sanitizeForClient(row);
     } else {
       const [row] = await db.update(databaseSettings)

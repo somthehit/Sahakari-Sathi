@@ -659,6 +659,7 @@ export interface BankChequeVoucherInput {
   voucherDateAD: string;
   particulars: string;
   debitLedgerId: string;   // Expense or Party Ledger GL account id
+  branchId?: string;
 }
 
 /**
@@ -860,6 +861,7 @@ export interface SavingsChequeWithdrawalInput {
   dateBs: string;
   dateAd: string;
   particulars: string;
+  branchId?: string;
 }
 
 export interface SavingsChequeWithdrawalResult {
@@ -1157,6 +1159,7 @@ export interface InternalChequeRepaymentInput {
   isThirdParty: boolean;
   /** Per-loan GL overrides from the loan wizard (mappingKey → accountId). */
   customGlMappings?: Record<string, string>;
+  branchId?: string;
 }
 
 export interface InternalChequeRepaymentResult {

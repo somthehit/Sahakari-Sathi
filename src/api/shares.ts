@@ -16,6 +16,19 @@ import type {
   ShareDashboardSummary,
 } from '../types/coop';
 
+export type {
+  ShareHolding,
+  ShareType,
+  ShareTransaction,
+  ShareCertificate,
+  ShareIssuePayload,
+  ShareTransferPayload,
+  ShareTransfer,
+  ShareTransferDetail,
+  ShareTransferResult,
+  ShareDashboardSummary,
+};
+
 export interface Paginated<T> {
   data: T[];
   total: number;

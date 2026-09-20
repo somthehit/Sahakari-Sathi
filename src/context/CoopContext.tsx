@@ -136,7 +136,7 @@ interface CoopContextType {
   // Notifications
   notifications: NotificationItem[];
   unreadNotificationCount: number;
-  addNotification: (title: string, message: string, type?: 'info' | 'success' | 'warning' | 'alert') => void;
+  addNotification: (title: string, message: string, type?: 'info' | 'success' | 'warning' | 'alert' | 'error') => void;
   markNotificationRead: (id: string) => void;
   clearAllNotifications: () => void;
 
@@ -684,7 +684,7 @@ export const CoopProvider: React.FC<{ children: React.ReactNode; dataEnabled?: b
 
   const activeBranch = branches.find(b => b.id === activeBranchId) || branches[0];
 
-  const addNotification = (title: string, message: string, type: 'info' | 'success' | 'warning' | 'alert' = 'info') => {
+  const addNotification = (title: string, message: string, type: 'info' | 'success' | 'warning' | 'alert' | 'error' = 'info') => {
     const newItem: NotificationItem = {
       id: `notif_${Date.now()}`,
       title,

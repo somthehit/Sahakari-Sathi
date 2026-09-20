@@ -39,8 +39,8 @@ const FIELD_RESOLVERS: Record<string, AccountAggregator> = {
     a.filter(x => x.type === 'Equity').reduce((s, x) => s + (Number(x.balance) || 0), 0),
 
   // Trial Balance
-  'total_debits':     (a) => a.filter(x => x.type === 'Expense' || x.type === 'Asset').reduce((s, x) => s + (Number(x.debit) || 0), 0),
-  'total_credits':    (a) => a.filter(x => x.type === 'Income' || x.type === 'Liability' || x.type === 'Equity').reduce((s, x) => s + (Number(x.credit) || 0), 0),
+  'total_debits':     (a) => a.filter(x => x.type === 'Expense' || x.type === 'Asset').reduce((s, x: any) => s + (Number(x.debit || x.balance) || 0), 0),
+  'total_credits':    (a) => a.filter(x => x.type === 'Income' || x.type === 'Liability' || x.type === 'Equity').reduce((s, x: any) => s + (Number(x.credit || x.balance) || 0), 0),
 
   // Cash / Bank
   'cash_bank_balance': (a) => a.filter(x => x.code.startsWith('101') || x.code.startsWith('102') || x.name.toLowerCase().includes('cash') || x.name.toLowerCase().includes('bank')).reduce((s, x) => s + (Number(x.balance) || 0), 0),
@@ -63,8 +63,8 @@ const FIELD_RESOLVERS: Record<string, AccountAggregator> = {
   'fixed_assets':     (a) => a.filter(x => x.code.startsWith('12') || x.name.toLowerCase().includes('fixed asset') || x.name.toLowerCase().includes('स्थायी सम्पत्ति')).reduce((s, x) => s + (Number(x.balance) || 0), 0),
 
   // Prior period
-  'prior_total_assets': (a) => a.filter(x => x.type === 'Asset').reduce((s, x) => s + (Number(x.priorBalance) || 0), 0),
-  'prior_net_surplus':  (a) => a.filter(x => x.type === 'Income').reduce((s, x) => s + (Number(x.priorBalance) || 0), 0) - a.filter(x => x.type === 'Expense').reduce((s, x) => s + (Number(x.priorBalance) || 0), 0),
+  'prior_total_assets': (a) => a.filter(x => x.type === 'Asset').reduce((s, x: any) => s + (Number(x.priorBalance || x.balance) || 0), 0),
+  'prior_net_surplus':  (a) => a.filter(x => x.type === 'Income').reduce((s, x: any) => s + (Number(x.priorBalance || x.balance) || 0), 0) - a.filter(x => x.type === 'Expense').reduce((s, x: any) => s + (Number(x.priorBalance || x.balance) || 0), 0),
 };
 
 function resolveField(fieldRef: string | null | undefined, accounts: typeof chartOfAccounts.$inferSelect[]): number | null {
@@ -128,7 +128,7 @@ export class AuditEngineController {
       const db = getDb();
       const { category, active } = req.query;
       let conditions: any[] = [eq(auditRules.organizationId, organizationId)];
-      if (category) conditions.push(eq(auditRules.category, category as string));
+      if (category) conditions.push(eq(auditRules.category, category as any));
       if (active !== undefined) conditions.push(eq(auditRules.active, active === 'true'));
       const rules = await db.select().from(auditRules)
         .where(and(...conditions))
@@ -306,7 +306,7 @@ export class AuditEngineController {
       if (fiscalYearId) {
         const fyRows = await db.select().from(fiscalYears)
           .where(eq(fiscalYears.id, fiscalYearId));
-        if (fyRows.length) fyLabel = fyRows[0].code || `${fyRows[0].startDateBS} to ${fyRows[0].endDateBS}`;
+        if (fyRows.length) fyLabel = fyRows[0].code || `${fyRows[0].startDateBs} to ${fyRows[0].endDateBs}`;
       }
 
       // Create run record
@@ -408,9 +408,9 @@ export class AuditEngineController {
       const { runId, status, severity, category } = req.query;
       let conditions: any[] = [eq(auditFindings.organizationId, organizationId)];
       if (runId) conditions.push(eq(auditFindings.runId, runId as string));
-      if (status) conditions.push(eq(auditFindings.status, status as string));
-      if (severity) conditions.push(eq(auditFindings.severity, severity as string));
-      if (category) conditions.push(eq(auditFindings.category, category as string));
+      if (status) conditions.push(eq(auditFindings.status, status as any));
+      if (severity) conditions.push(eq(auditFindings.severity, severity as any));
+      if (category) conditions.push(eq(auditFindings.category, category as any));
       const findings = await db.select().from(auditFindings)
         .where(and(...conditions))
         .orderBy(desc(auditFindings.createdAt));

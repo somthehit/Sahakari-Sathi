@@ -3,6 +3,7 @@ import { Award, Download, FileSpreadsheet, Printer, Loader2, RefreshCw, Calendar
 import { formatNPR } from '../../../utils/nepaliCalendar';
 import { exportToPdf, exportToExcel } from '../../../utils/exportUtils';
 import { fetchAgmPack, type AgmPackResponse } from '../../../api/agmGovernance';
+import { useCoop } from '../../../context/CoopContext';
 
 export const AgmPackPage: React.FC = () => {
   const { activeBranchId } = useCoop();

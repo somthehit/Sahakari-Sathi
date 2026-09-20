@@ -436,7 +436,7 @@ export class AgmManagementController {
       const { category, meetingId } = req.query;
       let query = db.select().from(agmTeamMembers).where(eq(agmTeamMembers.organizationId, organizationId));
       if (category && typeof category === 'string') {
-        query = db.select().from(agmTeamMembers).where(and(eq(agmTeamMembers.organizationId, organizationId), eq(agmTeamMembers.category, category)));
+        query = db.select().from(agmTeamMembers).where(and(eq(agmTeamMembers.organizationId, organizationId), eq(agmTeamMembers.category, category as any)));
       }
       if (meetingId && typeof meetingId === 'string') {
         query = db.select().from(agmTeamMembers).where(and(eq(agmTeamMembers.organizationId, organizationId), eq(agmTeamMembers.meetingId, meetingId)));

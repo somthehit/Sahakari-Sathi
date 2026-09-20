@@ -293,12 +293,12 @@ export const AuditEngineView: React.FC = () => {
         status: 'in_review',
         resolutionNote: shareForm.message || `Shared with ${shareForm.recipient === 'internal_auditor' ? 'Internal' : 'External'} Auditor`,
       });
-      addNotification({ type: 'success', title: 'Finding Shared', message: `Finding sent to ${shareForm.recipient === 'internal_auditor' ? 'Internal Auditor' : 'External Auditor'} for review.` });
+      addNotification('Finding Shared', `Finding sent to ${shareForm.recipient === 'internal_auditor' ? 'Internal Auditor' : 'External Auditor'} for review.`, 'success');
       setShareModal(false);
       setShareForm({ recipient: 'internal_auditor', message: '', includeEvidence: true });
-      if (selectedRun) { const data = await fetchAuditFindings(selectedRun.id); setFindings(data); }
+      if (selectedRun) { const data = await fetchAuditFindings({ runId: selectedRun.id }); setFindings(data); }
     } catch (e: any) {
-      addNotification({ type: 'error', title: 'Share Failed', message: e.message });
+      addNotification('Share Failed', e.message, 'error');
     }
   }, [selectedFinding, shareForm, selectedRun, addNotification]);
 
@@ -367,12 +367,12 @@ export const AuditEngineView: React.FC = () => {
     setRunning(true);
     try {
       const result = await triggerAuditRun();
-      addNotification({ type: 'success', title: 'Audit Run Complete', message: `${result.totalRules} rules evaluated, ${result.findingsCount} findings.` });
+      addNotification('Audit Run Complete', `${result.totalRules} rules evaluated, ${result.findingsCount} findings.`, 'success');
       await Promise.all([loadDashboard(), loadRuns(), loadFindings()]);
       setSelectedRun(result as any);
       setTab('findings');
     } catch (e: any) {
-      addNotification({ type: 'error', title: 'Audit Run Failed', message: e.message });
+      addNotification('Audit Run Failed', e.message, 'error');
     } finally {
       setRunning(false);
     }
@@ -381,10 +381,10 @@ export const AuditEngineView: React.FC = () => {
   const handleSeedRules = async () => {
     try {
       const result = await seedAuditRules();
-      addNotification({ type: 'success', title: 'Rules Seeded', message: `${result.seeded} new rules added out of ${result.total} total.` });
+      addNotification('Rules Seeded', `${result.seeded} new rules added out of ${result.total} total.`, 'success');
       await loadRules();
     } catch (e: any) {
-      addNotification({ type: 'error', title: 'Seed Failed', message: e.message });
+      addNotification('Seed Failed', e.message, 'error');
     }
   };
 
@@ -392,17 +392,17 @@ export const AuditEngineView: React.FC = () => {
     try {
       if (editingRule) {
         await updateAuditRule(editingRule.id, ruleForm as any);
-        addNotification({ type: 'success', title: 'Rule Updated', message: ruleForm.name });
+        addNotification('Rule Updated', ruleForm.name, 'success');
       } else {
         await createAuditRule(ruleForm as any);
-        addNotification({ type: 'success', title: 'Rule Created', message: ruleForm.name });
+        addNotification('Rule Created', ruleForm.name, 'success');
       }
       setShowRuleModal(false);
       setEditingRule(null);
       setRuleForm({ ruleCode: '', name: '', nameNepali: '', description: '', category: 'integrity', layer: 1, ruleType: 'tie_out', fieldA: '', fieldB: '', operator: '=', tolerance: '0', baseField: '', thresholdValue: '', sourceStatement: '', severity: 'medium', isBlocking: false, active: true });
       await loadRules();
     } catch (e: any) {
-      addNotification({ type: 'error', title: 'Save Failed', message: e.message });
+      addNotification('Save Failed', e.message, 'error');
     }
   };
 
@@ -410,12 +410,12 @@ export const AuditEngineView: React.FC = () => {
     if (!selectedFinding) return;
     try {
       await resolveAuditFinding(selectedFinding.id, resolveForm as any);
-      addNotification({ type: 'success', title: 'Finding Updated', message: `Status: ${resolveForm.status}` });
+      addNotification('Finding Updated', `Status: ${resolveForm.status}`, 'success');
       setResolveModal(false);
       setSelectedFinding(null);
       await loadFindings();
     } catch (e: any) {
-      addNotification({ type: 'error', title: 'Update Failed', message: e.message });
+      addNotification('Update Failed', e.message, 'error');
     }
   };
 
@@ -444,12 +444,12 @@ export const AuditEngineView: React.FC = () => {
         payload.docPortalUrl = signoffForm.docPortalUrl;
       }
       await addAuditSignoff(payload);
-      addNotification({ type: 'success', title: 'Sign-off Recorded', message: `${signoffForm.stage}: ${signoffForm.decision}` });
+      addNotification('Sign-off Recorded', `${signoffForm.stage}: ${signoffForm.decision}`, 'success');
       setSignoffModal(false);
       setSignoffForm({ stage: 'preparer', decision: 'approved', comments: '', externalAuditorName: '', externalAuditorFirm: '', opinionPdfUrl: '', opinionPdfName: '', resolutionNumber: '', resolutionDate: '', resolutionTitle: '', docSubmissionDate: '', docReferenceNumber: '', docPortalUrl: '' });
       await loadSignoffs(selectedRun.id);
     } catch (e: any) {
-      addNotification({ type: 'error', title: 'Sign-off Failed', message: e.message });
+      addNotification('Sign-off Failed', e.message, 'error');
     }
   };
 
@@ -1199,10 +1199,10 @@ export const AuditEngineView: React.FC = () => {
                       const vRaw = voucherRes?.vouchers || voucherRes?.data || voucherRes || [];
                       const vList = Array.isArray(vRaw) ? vRaw : [];
                       const fd = buildFinancialData(accounts, vList);
-                      const findingsData = findings.map(f => ({
+                      const findingsData = findings.map((f: any) => ({
                         title: f.title, description: f.description, severity: f.severity, status: f.status,
-                        category: f.category, expectedValue: f.expectedValue, actualValue: f.actualValue,
-                        variance: f.variance, resolutionNote: f.resolutionNote,
+                        category: f.category, expectedValue: f.expectedValue || f.evidenceRef?.expectedValue || '-', actualValue: f.actualValue || f.evidenceRef?.actualValue || '-',
+                        variance: f.variance || f.evidenceRef?.variance || '-', resolutionNote: f.resolutionNote || '',
                       }));
                       const signoffsData = signoffs.map(s => ({
                         stage: s.stage, decision: s.decision, userName: s.userName,
@@ -1215,12 +1215,12 @@ export const AuditEngineView: React.FC = () => {
                       exportTrialBalancePdf(`TB_${rn}`, '', '', ps, pe, fd.tbAccs, fd.tbTotals);
                       exportCashFlowPdf(`CF_${rn}`, '', '', ps, pe, fd.receipts, fd.totalReceipts, fd.payments, fd.totalPayments, 0);
                       exportAuditOpinionPdf(`Opinion_${rn}`, '', '',
-                        { runId: selectedRun?.id || '', runDate: selectedRun?.triggeredAt || '', ...opinion! },
+                        { runId: selectedRun?.id || '', runDate: (selectedRun as any)?.triggeredAt || (selectedRun as any)?.createdAt || '', ...opinion! },
                         findingsData, signoffsData);
-                      addNotification({ type: 'success', title: 'Exported', message: 'All 5 PDFs downloaded.' });
+                      addNotification('Exported', 'All 5 PDFs downloaded.', 'success');
                     } catch (e: any) {
                       console.error('Export error:', e);
-                      addNotification({ type: 'error', title: 'Export Failed', message: e.message });
+                      addNotification('Export Failed', e.message, 'error');
                     }
                   }}
                   className="px-3 py-1.5 rounded-lg bg-emerald-700 text-white text-xs font-medium hover:bg-emerald-800 flex items-center gap-1"
@@ -1235,10 +1235,10 @@ export const AuditEngineView: React.FC = () => {
                       const vRaw = voucherRes?.vouchers || voucherRes?.data || voucherRes || [];
                       const vList = Array.isArray(vRaw) ? vRaw : [];
                       const fd = buildFinancialData(accounts, vList);
-                      const findingsData = findings.map(f => ({
+                      const findingsData = findings.map((f: any) => ({
                         title: f.title, description: f.description, severity: f.severity, status: f.status,
-                        category: f.category, expectedValue: f.expectedValue, actualValue: f.actualValue,
-                        variance: f.variance, resolutionNote: f.resolutionNote,
+                        category: f.category, expectedValue: f.expectedValue || f.evidenceRef?.expectedValue || '-', actualValue: f.actualValue || f.evidenceRef?.actualValue || '-',
+                        variance: f.variance || f.evidenceRef?.variance || '-', resolutionNote: f.resolutionNote || f.resolutionComments || '',
                       }));
                       const rulesForExport = rulesData.map(r => ({
                         name: r.name, ruleType: r.ruleType, category: r.category,
@@ -1247,16 +1247,16 @@ export const AuditEngineView: React.FC = () => {
                       const rn = selectedRun?.id.slice(0, 8) || 'Package';
                       const ps = '', pe = '';
                       exportWorkpaperPackagePdf(`Workpapers_${rn}`, '', '',
-                        selectedRun?.id || '', selectedRun?.triggeredAt || '',
+                        selectedRun?.id || '', (selectedRun as any)?.createdAt || '',
                         findingsData, [], rulesForExport);
                       exportBalanceSheetPdf(`WP_BS_${rn}`, '', '', ps, pe, fd.assetAccs, fd.totalAssets, fd.priorAssets, fd.liabAccs, fd.totalLiab, fd.priorLiab, fd.eqAccs, fd.totalEq, fd.priorEq, fd.netSurplus);
                       exportProfitLossPdf(`WP_PL_${rn}`, '', '', ps, pe, fd.incAccs, fd.totalInc, fd.priorInc, fd.expAccs, fd.totalExp, fd.priorExp);
                       exportTrialBalancePdf(`WP_TB_${rn}`, '', '', ps, pe, fd.tbAccs, fd.tbTotals);
                       exportCashFlowPdf(`WP_CF_${rn}`, '', '', ps, pe, fd.receipts, fd.totalReceipts, fd.payments, fd.totalPayments, 0);
-                      addNotification({ type: 'success', title: 'Exported', message: 'Workpapers + all financial statements downloaded.' });
+                      addNotification('Exported', 'Workpapers + all financial statements downloaded.', 'success');
                     } catch (e: any) {
                       console.error('Export error:', e);
-                      addNotification({ type: 'error', title: 'Export Failed', message: e.message });
+                      addNotification('Export Failed', e.message, 'error');
                     }
                   }}
                   className="px-3 py-1.5 rounded-lg bg-sky-700 text-white text-xs font-medium hover:bg-sky-800 flex items-center gap-1"
@@ -1301,9 +1301,9 @@ export const AuditEngineView: React.FC = () => {
               const stageSignoff = signoffs.find(s => s.stage === stage.key);
               const StageIcon = stage.icon;
               const isCompleted = stageSignoff?.decision === 'approved';
-              const STAGE_ORDER = ['preparer', 'internal_auditor', 'external_auditor', 'board', 'doc_submission'];
+              const STAGE_ORDER: ('preparer' | 'internal_auditor' | 'external_auditor' | 'board' | 'doc_submission')[] = ['preparer', 'internal_auditor', 'external_auditor', 'board', 'doc_submission'];
               const completedStages = new Set(signoffs.filter(s => s.decision === 'approved').map(s => s.stage));
-              const isNextAvailable = !isCompleted && STAGE_ORDER.indexOf(stage.key) === STAGE_ORDER.findIndex(s => !completedStages.has(s));
+              const isNextAvailable = !isCompleted && STAGE_ORDER.indexOf(stage.key as any) === STAGE_ORDER.findIndex(s => !completedStages.has(s));
               return (
                 <div key={stage.key} className={`flex items-center gap-3 p-3 rounded-xl ${isNextAvailable ? 'bg-emerald-50 border border-emerald-200' : ''}`}>
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isCompleted ? 'bg-green-100 text-green-600' : stageSignoff?.decision === 'rejected' ? 'bg-red-100 text-red-600' : isNextAvailable ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-400'}`}>
@@ -1371,10 +1371,10 @@ export const AuditEngineView: React.FC = () => {
                     const vRaw = voucherRes?.data || voucherRes?.vouchers || voucherRes || [];
                     const vList = Array.isArray(vRaw) ? vRaw : [];
                     const fd = buildFinancialData(accounts, vList);
-                    const findingsData = findings.map(f => ({
+                    const findingsData = findings.map((f: any) => ({
                       title: f.title, description: f.description, severity: f.severity, status: f.status,
-                      category: f.category, expectedValue: f.expectedValue, actualValue: f.actualValue,
-                      variance: f.variance, resolutionNote: f.resolutionNote,
+                      category: f.category, expectedValue: f.expectedValue || f.evidenceRef?.expectedValue || '-', actualValue: f.actualValue || f.evidenceRef?.actualValue || '-',
+                      variance: f.variance || f.evidenceRef?.variance || '-', resolutionNote: f.resolutionNote || f.resolutionComments || '',
                     }));
                     const signoffsData = signoffs.map(s => ({
                       stage: s.stage, decision: s.decision, userName: s.userName,
@@ -1386,13 +1386,13 @@ export const AuditEngineView: React.FC = () => {
                     }));
                     const rn = selectedRun?.id.slice(0, 8) || 'Final';
                     const opinionData = opinion ? {
-                      runId: selectedRun?.id || '', runDate: selectedRun?.triggeredAt || '',
+                      runId: selectedRun?.id || '', runDate: (selectedRun as any)?.createdAt || '',
                       suggestedClassification: opinion.suggestedClassification || 'disclaimer',
                       finalClassification: opinion.finalClassification,
                       overrideReason: opinion.overrideReason,
                       basisSummary: opinion.basisSummary || '',
                     } : {
-                      runId: selectedRun?.id || '', runDate: selectedRun?.triggeredAt || '',
+                      runId: selectedRun?.id || '', runDate: (selectedRun as any)?.createdAt || '',
                       suggestedClassification: 'disclaimer', basisSummary: 'No opinion draft available.',
                     };
                     exportConsolidatedAuditReportPdf(
@@ -1402,10 +1402,10 @@ export const AuditEngineView: React.FC = () => {
                       { incAccs: fd.incAccs, totalInc: fd.totalInc, priorInc: fd.priorInc, expAccs: fd.expAccs, totalExp: fd.totalExp, priorExp: fd.priorExp },
                       { tbAccs: fd.tbAccs, tbTotals: fd.tbTotals },
                     );
-                    addNotification({ type: 'success', title: 'Final Report Exported', message: 'Consolidated audit report downloaded.' });
+                    addNotification('Final Report Exported', 'Consolidated audit report downloaded.', 'success');
                   } catch (e: any) {
                     console.error('Final export error:', e);
-                    addNotification({ type: 'error', title: 'Export Failed', message: e.message });
+                    addNotification('Export Failed', e.message, 'error');
                   }
                 }}
                 className="px-6 py-3 rounded-xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 flex items-center gap-2 shadow-lg"
@@ -1420,9 +1420,9 @@ export const AuditEngineView: React.FC = () => {
         {signoffModal && selectedRun && (() => {
           const STAGE_ORDER = ['preparer', 'internal_auditor', 'external_auditor', 'board', 'doc_submission'];
           const completedStages = new Set(signoffs.filter(s => s.decision === 'approved').map(s => s.stage));
-          const nextStageIdx = STAGE_ORDER.findIndex(s => !completedStages.has(s));
+          const nextStageIdx = STAGE_ORDER.findIndex(s => !completedStages.has(s as any));
           const nextStage = nextStageIdx >= 0 ? STAGE_ORDER[nextStageIdx] : null;
-          const availableStages = STAGE_ORDER.filter((s, i) => i >= nextStageIdx && !completedStages.has(s));
+          const availableStages = STAGE_ORDER.filter((s, i) => i >= nextStageIdx && !completedStages.has(s as any));
 
           return (
             <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">

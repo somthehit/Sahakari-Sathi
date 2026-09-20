@@ -3,21 +3,21 @@ import autoTable from 'jspdf-autotable';
 
 // ─── COLORS ────────────────────────────────────────────────────────────
 const C = {
-  primary: [0, 97, 48] as const,      // Emerald-700
-  primaryLight: [209, 250, 229] as const, // Emerald-100
-  accent: [5, 150, 105] as const,     // Emerald-600
-  slate: [30, 41, 59] as const,       // Slate-800
-  slateMid: [100, 116, 139] as const, // Slate-500
-  slateLight: [248, 250, 252] as const, // Slate-50
-  white: [255, 255, 255] as const,
-  red: [220, 38, 38] as const,        // Red-600
-  redLight: [254, 226, 226] as const, // Red-100
-  green: [22, 163, 74] as const,      // Green-600
-  greenLight: [220, 252, 231] as const, // Green-100
-  amber: [217, 119, 6] as const,      // Amber-600
-  amberLight: [254, 243, 199] as const, // Amber-100
-  sky: [3, 105, 161] as const,        // Sky-600
-  skyLight: [224, 242, 254] as const, // Sky-100
+  primary: [0, 97, 48] as [number, number, number],      // Emerald-700
+  primaryLight: [209, 250, 229] as [number, number, number], // Emerald-100
+  accent: [5, 150, 105] as [number, number, number],     // Emerald-600
+  slate: [30, 41, 59] as [number, number, number],       // Slate-800
+  slateMid: [100, 116, 139] as [number, number, number], // Slate-500
+  slateLight: [248, 250, 252] as [number, number, number], // Slate-50
+  white: [255, 255, 255] as [number, number, number],
+  red: [220, 38, 38] as [number, number, number],        // Red-600
+  redLight: [254, 226, 226] as [number, number, number], // Red-100
+  green: [22, 163, 74] as [number, number, number],      // Green-600
+  greenLight: [220, 252, 231] as [number, number, number], // Green-100
+  amber: [217, 119, 6] as [number, number, number],      // Amber-600
+  amberLight: [254, 243, 199] as [number, number, number], // Amber-100
+  sky: [3, 105, 161] as [number, number, number],        // Sky-600
+  skyLight: [224, 242, 254] as [number, number, number], // Sky-100
 };
 
 type RGB = readonly [number, number, number];
@@ -127,7 +127,7 @@ export function exportBalanceSheetPdf(
 
   // ── ASSETS ──
   y = drawSectionHeader(doc, 'ASSETS (सम्पत्तिहरू)', y, C.primary);
-  const assetRows = assetAccounts.map(a => [
+  const assetRows: any[] = assetAccounts.map(a => [
     a.code, a.name, fmt(a.priorBalance), fmt(a.balance), fmt(a.varAmount), pctChange(a.balance, a.priorBalance),
   ]);
   assetRows.push([{ content: 'TOTAL ASSETS', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.primaryLight } as any },
@@ -148,7 +148,7 @@ export function exportBalanceSheetPdf(
 
   // ── LIABILITIES ──
   y = drawSectionHeader(doc, 'LIABILITIES (दायित्वहरू)', y, C.red);
-  const liabRows = liabilityAccounts.map(l => [
+  const liabRows: any[] = liabilityAccounts.map(l => [
     l.code, l.name, fmt(l.priorBalance), fmt(l.balance), fmt(l.varAmount), pctChange(l.balance, l.priorBalance),
   ]);
   liabRows.push([{ content: 'TOTAL LIABILITIES', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.redLight } as any },
@@ -169,7 +169,7 @@ export function exportBalanceSheetPdf(
 
   // ── EQUITY ──
   y = drawSectionHeader(doc, 'MEMBER EQUITY & RESERVES (शेयर पुँजी तथा कोष)', y, C.sky);
-  const eqRows = equityAccounts.map(e => [
+  const eqRows: any[] = equityAccounts.map(e => [
     e.code, e.name, fmt(e.priorBalance), fmt(e.balance), fmt(e.varAmount), pctChange(e.balance, e.priorBalance),
   ]);
   eqRows.push(['', 'RETAINED SURPLUS (P&L)', '-', fmt(netSurplus), '-', '-']);
@@ -189,6 +189,20 @@ export function exportBalanceSheetPdf(
     alternateRowStyles: { fillColor: C.slateLight },
     margin: { left: 14, right: 14 },
   });
+  y = (doc as any).lastAutoTable.finalY + 8;
+
+  // Verification note
+  const variance = Math.abs(totalAssets - grandLiabEq);
+  doc.setFontSize(7.5);
+  if (variance < 0.01) {
+    doc.setTextColor(...C.green);
+    doc.setFont('helvetica', 'bold');
+    doc.text('BALANCE SHEET BALANCED (सन्तुलित) - Total Assets equal Total Liabilities & Equity.', 14, y);
+  } else {
+    doc.setTextColor(...C.red);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`UNBALANCED (असन्तुलित) - Discrepancy of NPR ${fmt(variance)}.`, 14, y);
+  }
 
   drawFooter(doc);
   doc.save(`${filename}.pdf`);
@@ -216,7 +230,7 @@ export function exportProfitLossPdf(
 
   // ── REVENUE ──
   y = drawSectionHeader(doc, 'REVENUE & INCOME HEADS (राजस्व र आम्दानी)', y, C.green);
-  const incRows = incomeHeads.map(h => [
+  const incRows: any[] = incomeHeads.map(h => [
     h.code, h.name, fmt(h.priorBalance), fmt(h.periodAmount), fmt(h.varAmount), pctChange(h.periodAmount, h.priorBalance),
   ]);
   incRows.push([{ content: 'TOTAL REVENUE INCOME', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.greenLight } as any },
@@ -237,7 +251,7 @@ export function exportProfitLossPdf(
 
   // ── EXPENSES ──
   y = drawSectionHeader(doc, 'OPERATING EXPENSE HEADS (सञ्चालन खर्च)', y, C.red);
-  const expRows = expenseHeads.map(h => [
+  const expRows: any[] = expenseHeads.map(h => [
     h.code, h.name, fmt(h.priorBalance), fmt(h.periodAmount), fmt(h.varAmount), pctChange(h.periodAmount, h.priorBalance),
   ]);
   expRows.push([{ content: 'TOTAL OPERATING EXPENSES', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.redLight } as any },
@@ -314,7 +328,7 @@ export function exportTrialBalancePdf(
 
     y = drawSectionHeader(doc, `${cat.toUpperCase()}S`, y, catColors[cat] || C.primary);
 
-    const rows = catAccounts.map(a => [
+    const rows: any[] = catAccounts.map(a => [
       a.code, a.name, fmtShort(a.openingBalance), fmtShort(a.debitMovement),
       fmtShort(a.creditMovement), fmtShort(a.closingBalance), fmtShort(a.variance),
     ]);
@@ -384,7 +398,7 @@ export function exportCashFlowPdf(
 
   // ── CASH RECEIPTS ──
   y = drawSectionHeader(doc, 'CASH RECEIPTS / INFLOWS (नगद प्राप्ति)', y, C.green);
-  const rcptRows = receipts.map(r => [
+  const rcptRows: any[] = receipts.map(r => [
     r.voucherNo || '-', r.dateBs, r.particulars, fmt(r.amount),
   ]);
   rcptRows.push([{ content: 'TOTAL RECEIPTS', colSpan: 3, styles: { fontStyle: 'bold', fillColor: C.greenLight } as any },
@@ -405,7 +419,7 @@ export function exportCashFlowPdf(
 
   // ── CASH PAYMENTS ──
   y = drawSectionHeader(doc, 'CASH PAYMENTS / OUTFLOWS (नगद भुक्तानी)', y, C.red);
-  const pmtRows = payments.map(p => [
+  const pmtRows: any[] = payments.map(p => [
     p.voucherNo || '-', p.dateBs, p.particulars, fmt(p.amount),
   ]);
   pmtRows.push([{ content: 'TOTAL PAYMENTS', colSpan: 3, styles: { fontStyle: 'bold', fillColor: C.redLight } as any },
@@ -1100,15 +1114,15 @@ export function exportConsolidatedAuditReportPdf(
   // 4. BALANCE SHEET
   if (y > 200) { doc.addPage(); y = 30; }
   y = drawSectionHeader(doc, '4. BALANCE SHEET', y); y += 6;
-  const bsA = bsData.assetAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.balance), fmt(a.varAmount)]);
+  const bsA: any[] = bsData.assetAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.balance), fmt(a.varAmount)]);
   bsA.push([{ content: 'TOTAL ASSETS', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.primaryLight } as any }, fmt(bsData.priorAssets), fmt(bsData.totalAssets), fmt(bsData.totalAssets - bsData.priorAssets)]);
   autoTable(doc, { startY: y, head: [['Code', 'Account', 'Prior', 'Current', 'Variance']], body: bsA as any, theme: 'grid', headStyles: { fillColor: C.primary, textColor: C.white, fontStyle: 'bold', fontSize: 6.5 }, bodyStyles: { fontSize: 6.5, cellPadding: 1 }, columnStyles: { 2: { halign: 'right' }, 3: { halign: 'right' }, 4: { halign: 'right' } }, alternateRowStyles: { fillColor: C.slateLight }, margin: { left: 10, right: 10 } });
   y = (doc as any).lastAutoTable.finalY + 5;
-  const bsL = bsData.liabAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.balance), fmt(a.varAmount)]);
+  const bsL: any[] = bsData.liabAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.balance), fmt(a.varAmount)]);
   bsL.push([{ content: 'TOTAL LIABILITIES', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.redLight } as any }, fmt(bsData.priorLiab), fmt(bsData.totalLiab), fmt(bsData.totalLiab - bsData.priorLiab)]);
   autoTable(doc, { startY: y, head: [['Code', 'Account', 'Prior', 'Current', 'Variance']], body: bsL as any, theme: 'grid', headStyles: { fillColor: C.red, textColor: C.white, fontStyle: 'bold', fontSize: 6.5 }, bodyStyles: { fontSize: 6.5, cellPadding: 1 }, columnStyles: { 2: { halign: 'right' }, 3: { halign: 'right' }, 4: { halign: 'right' } }, alternateRowStyles: { fillColor: C.slateLight }, margin: { left: 10, right: 10 } });
   y = (doc as any).lastAutoTable.finalY + 5;
-  const bsE = bsData.eqAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.balance), fmt(a.varAmount)]);
+  const bsE: any[] = bsData.eqAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.balance), fmt(a.varAmount)]);
   bsE.push([{ content: 'NET SURPLUS', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.skyLight } as any }, fmt(0), fmt(bsData.netSurplus), fmt(bsData.netSurplus)]);
   bsE.push([{ content: 'TOTAL L+E', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.primaryLight } as any }, fmt(bsData.priorLiab + bsData.priorEq), fmt(bsData.totalLiab + bsData.totalEq + bsData.netSurplus), fmt((bsData.totalLiab + bsData.totalEq + bsData.netSurplus) - (bsData.priorLiab + bsData.priorEq))]);
   autoTable(doc, { startY: y, head: [['Code', 'Account', 'Prior', 'Current', 'Variance']], body: bsE as any, theme: 'grid', headStyles: { fillColor: C.sky, textColor: C.white, fontStyle: 'bold', fontSize: 6.5 }, bodyStyles: { fontSize: 6.5, cellPadding: 1 }, columnStyles: { 2: { halign: 'right' }, 3: { halign: 'right' }, 4: { halign: 'right' } }, alternateRowStyles: { fillColor: C.slateLight }, margin: { left: 10, right: 10 } });
@@ -1117,11 +1131,11 @@ export function exportConsolidatedAuditReportPdf(
   // 5. INCOME & EXPENDITURE
   if (y > 200) { doc.addPage(); y = 30; }
   y = drawSectionHeader(doc, '5. INCOME & EXPENDITURE', y); y += 6;
-  const plI = plData.incAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.periodAmount), fmt(a.varAmount)]);
+  const plI: any[] = plData.incAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.periodAmount), fmt(a.varAmount)]);
   plI.push([{ content: 'TOTAL INCOME', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.greenLight } as any }, fmt(plData.priorInc), fmt(plData.totalInc), fmt(plData.totalInc - plData.priorInc)]);
   autoTable(doc, { startY: y, head: [['Code', 'Account', 'Prior', 'Current', 'Variance']], body: plI as any, theme: 'grid', headStyles: { fillColor: C.green, textColor: C.white, fontStyle: 'bold', fontSize: 6.5 }, bodyStyles: { fontSize: 6.5, cellPadding: 1 }, columnStyles: { 2: { halign: 'right' }, 3: { halign: 'right' }, 4: { halign: 'right' } }, alternateRowStyles: { fillColor: C.slateLight }, margin: { left: 10, right: 10 } });
   y = (doc as any).lastAutoTable.finalY + 5;
-  const plE = plData.expAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.periodAmount), fmt(a.varAmount)]);
+  const plE: any[] = plData.expAccs.map(a => [a.code, a.name, fmt(a.priorBalance), fmt(a.periodAmount), fmt(a.varAmount)]);
   plE.push([{ content: 'TOTAL EXPENSES', colSpan: 2, styles: { fontStyle: 'bold', fillColor: C.redLight } as any }, fmt(plData.priorExp), fmt(plData.totalExp), fmt(plData.totalExp - plData.priorExp)]);
   autoTable(doc, { startY: y, head: [['Code', 'Account', 'Prior', 'Current', 'Variance']], body: plE as any, theme: 'grid', headStyles: { fillColor: C.red, textColor: C.white, fontStyle: 'bold', fontSize: 6.5 }, bodyStyles: { fontSize: 6.5, cellPadding: 1 }, columnStyles: { 2: { halign: 'right' }, 3: { halign: 'right' }, 4: { halign: 'right' } }, alternateRowStyles: { fillColor: C.slateLight }, margin: { left: 10, right: 10 } });
   y = (doc as any).lastAutoTable.finalY + 5;

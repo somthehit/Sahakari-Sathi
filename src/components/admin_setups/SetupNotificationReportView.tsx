@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useCoop } from '../../context/CoopContext';
+import { useAuthStore } from '../../stores/authStore';
 import { 
   MessageSquare, Mail, FileCheck, Save, Send, Settings, 
   Bell, Clock, CheckCircle, AlertCircle, RefreshCw,
@@ -33,12 +34,12 @@ interface Props {
 }
 
 export const SetupNotificationReportView: React.FC<Props> = ({ activeSubKey = 'setup_sms_gateway' }) => {
-  const { addNotification, currentOrganization } = useCoop();
+  const { addNotification } = useCoop();
   const [subTab, setSubTab] = useState<string>(activeSubKey);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Organization ID from context
-  const organizationId = currentOrganization?.id || '';
+  // Organization ID from auth store
+  const organizationId = useAuthStore(s => s.user?.organizationId) || '';
 
   // Loading states
   const [loading, setLoading] = useState(false);
@@ -109,11 +110,12 @@ export const SetupNotificationReportView: React.FC<Props> = ({ activeSubKey = 's
   const [showTemplateForm, setShowTemplateForm] = useState(false);
   const [templateForm, setTemplateForm] = useState({
     code: '',
-    channel: 'SMS' as 'Email' | 'SMS' | 'Push' | 'In_App',
+    channel: 'SMS' as 'Email' | 'SMS' | 'WhatsApp' | 'Push' | 'In_App',
     category: 'transaction',
     subject: '',
     bodyTemplate: '',
     isActive: true,
+    isSystem: false,
   });
 
   // =============================================
@@ -141,7 +143,7 @@ export const SetupNotificationReportView: React.FC<Props> = ({ activeSubKey = 's
   // TEST MODAL STATE
   // =============================================
   const [showTestModal, setShowTestModal] = useState(false);
-  const [testType, setTestType] = useState<'sms' | 'email'>('sms');
+  const [testType, setTestType] = useState<'sms' | 'email' | 'whatsapp'>('sms');
   const [testValue, setTestValue] = useState('');
 
   // =============================================
@@ -375,7 +377,7 @@ export const SetupNotificationReportView: React.FC<Props> = ({ activeSubKey = 's
       await createTemplate(organizationId, templateForm);
       addNotification('Success', 'Template created successfully', 'success');
       setShowTemplateForm(false);
-      setTemplateForm({ code: '', channel: 'SMS', category: 'transaction', subject: '', bodyTemplate: '', isActive: true });
+      setTemplateForm({ code: '', channel: 'SMS', category: 'transaction', subject: '', bodyTemplate: '', isActive: true, isSystem: false });
       loadTemplates();
     } catch (error: any) {
       addNotification('Error', 'Failed to create template', 'error');
@@ -422,6 +424,7 @@ export const SetupNotificationReportView: React.FC<Props> = ({ activeSubKey = 's
       subject: template.subject || '',
       bodyTemplate: template.bodyTemplate,
       isActive: template.isActive,
+      isSystem: template.isSystem || false,
     });
     setShowTemplateForm(true);
   };
@@ -642,7 +645,7 @@ export const SetupNotificationReportView: React.FC<Props> = ({ activeSubKey = 's
           <p className="text-xs text-slate-500">Use super admin SMTP credentials as fallback</p>
         </div>
         <button
-          onClick={() => setEmailConfig(prev => ({ ...prev, usePlatformCredentials: !prev.usePlatformCredentials }))}
+          onClick={() => setSmsConfig(prev => ({ ...prev, usePlatformCredentials: !prev.usePlatformCredentials }))}
           className="text-emerald-600"
         >
           {smsConfig.usePlatformCredentials ? (
