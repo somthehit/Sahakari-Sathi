@@ -1,0 +1,6 @@
+{
+  "name": "Sahakari Sathi",
+  "description": "Multi-tenant Co-operative Society Management System & Financial Ledger with Virtual Tab Manager",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

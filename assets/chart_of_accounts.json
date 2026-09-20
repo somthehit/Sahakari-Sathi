@@ -1,0 +1,607 @@
+{
+  "accounts": [
+    {
+      "Code": "01",
+      "Name": "Equity",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-10",
+      "Name": "Share Capital",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-20",
+      "Name": "Reserve Funds(काेष हिसाब)",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-20-001",
+      "Name": "General Reserve Fund",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-20-002",
+      "Name": "Share Redemption Reserve",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-20-003",
+      "Name": "Social Responsibility Fund",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-20-004",
+      "Name": "Education Fund",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-20-005",
+      "Name": "Loan Loss Reserve",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-20-006",
+      "Name": "Staff Welfare Fund",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "01-20-007",
+      "Name": "Special Reserves",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02",
+      "Name": "Expenses (खर्च खाता)",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001",
+      "Name": "Operational Expenses",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001-001",
+      "Name": "Goods Purchases",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001-002",
+      "Name": "Carries & wages",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001-003",
+      "Name": "Interest Paid",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001-003-001",
+      "Name": "Interest Paid - Deposit",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001-003-002",
+      "Name": "Interest Paid - Loan",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001-004",
+      "Name": "Fuel & Transport",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001-005",
+      "Name": "Maintenance",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-001-006",
+      "Name": "Depreciation",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002",
+      "Name": "Administrative Expenses",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-001",
+      "Name": "Salaries & Allowance",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-001-001",
+      "Name": "Staff Salaries",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-001-002",
+      "Name": "Allowance",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-001-002-001",
+      "Name": "Allowance - Meeting",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-001-002-002",
+      "Name": "Allowance - Staff",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-003",
+      "Name": "Interest Paid",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-004",
+      "Name": "Electricity & Internet",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-005",
+      "Name": "Stationary & Miscellaneous",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-006",
+      "Name": "Insurance",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "02-150-002-007",
+      "Name": "Dividends Paid",
+      "Type": "EXPENSES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03",
+      "Name": "Income & Gain (आम्दानी खाता)",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-01",
+      "Name": "Direct Income",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-01-001",
+      "Name": "Goods Sales",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-01-002",
+      "Name": "Interest From Loan",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-01-003",
+      "Name": "Interest From Investment",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-01-004",
+      "Name": "Administrative Grant (अनुदान)",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02",
+      "Name": "Indirect Income",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02-001",
+      "Name": "Membership Fee",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02-002",
+      "Name": "Entry Fee (प्रवेश शुल्क)",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02-003",
+      "Name": "Services Fee (सेवा शुल्क)",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02-004",
+      "Name": "Late Fee Charge (विलम्ब शुल्क)",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02-005",
+      "Name": "Commission Receiced",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02-006",
+      "Name": "Rental Income",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02-007",
+      "Name": "Discount Get",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "03-160-02-008",
+      "Name": "Miscellaneous Income",
+      "Type": "INCOME",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04",
+      "Name": "Assets (सम्पत्ती खाता)",
+      "Type": "ASSETS",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-100",
+      "Name": "Investment (लगानी)",
+      "Type": "ASSETS",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-100-001",
+      "Name": "Sahakari Bank Limited Account",
+      "Type": "ASSET",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-110",
+      "Name": "Loan A/c (कर्जा दिएकाे हिसाब)",
+      "Type": "ASSETS",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-110-001",
+      "Name": "Krishi Karja Account",
+      "Type": "ASSET",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-120",
+      "Name": "Receivable (पाउनु पर्ने हिसाब)",
+      "Type": "ASSETS",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-130",
+      "Name": "Current Assets (चालु सम्पत्ती)",
+      "Type": "ASSETS",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-140",
+      "Name": "Fixed Assets (अचल सम्पत्ती)",
+      "Type": "ASSETS",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-80",
+      "Name": "Cash (नगद हिसाब)",
+      "Type": "ASSETS",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "04-90",
+      "Name": "Bank A/c (बैँक खाता)",
+      "Type": "ASSETS",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05",
+      "Name": "Liabilities (दायित्त्व खाता)",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-30",
+      "Name": "Member Deposit(बचत खाता)",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-30-001",
+      "Name": "Current Account",
+      "Type": "LIABILITY",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-30-002",
+      "Name": "Saving Account",
+      "Type": "LIABILITY",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-30-003",
+      "Name": "Fixed Diposit",
+      "Type": "LIABILITY",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-30-004",
+      "Name": "Daily Saving Account",
+      "Type": "LIABILITY",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-40",
+      "Name": "Loans Payable(लिएकाे कर्जा)",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-40-001",
+      "Name": "RMDC Account",
+      "Type": "LIABILITY",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-50",
+      "Name": "Grant (अनुदान)",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-60",
+      "Name": "Payable (भुक्तानी दिनुपर्ने)",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    },
+    {
+      "Code": "05-70",
+      "Name": "Other Payable (अन्य भुक्तानी दिनुपर्ने)",
+      "Type": "LIABILITIES",
+      "Description": "",
+      "Balance": 0,
+      "ParentCode": "",
+      "Status": "ACTIVE"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  // Disable VS Code's built-in CSS linter — it doesn't know Tailwind v4 at-rules like @variant, @utility, @theme
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  // Let the Tailwind IntelliSense extension handle CSS validation instead
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.includeLanguages": {
+    "typescriptreact": "html",
+    "typescript": "html"
+  },
+  "git.ignoreLimitWarning": true,
+  "claudeCode.useTerminal": true
+}

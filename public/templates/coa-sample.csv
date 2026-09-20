@@ -1,0 +1,17 @@
+gl_code,account_name,account_type,parent_gl_code,is_posting_allowed,opening_balance
+1000,Current Assets (चालु सम्पत्ति),ASSET,,false,0
+1100,Cash & Bank Holdings (नगद तथा बैंक मौज्दात),ASSET,1000,false,0
+1101,Cash in Hand (तिजोरी नगद),ASSET,1100,true,150000.00
+1102,Cash at Bank,ASSET,1100,true,500000.00
+1200,Loan Receivable (कर्जा असुली),ASSET,1000,false,0
+1201,Short Term Loan Receivable,ASSET,1200,true,0
+2000,Share Capital & Liabilities,LIABILITY,,false,0
+2100,Member Savings Accounts (सदस्य बचत),LIABILITY,2000,false,0
+2101,Savings Deposit,LIABILITY,2100,true,0
+2102,Share Capital,LIABILITY,2100,true,0
+2200,Borrowings,LIABILITY,2000,false,0
+2201,Loan from Cooperative Bank,LIABILITY,2200,true,0
+3000,Income,INCOME,,false,0
+3100,Interest Income,INCOME,3000,true,0
+4000,Expenses,EXPENSE,,false,0
+4100,Interest Expense,EXPENSE,4000,true,0
